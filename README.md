@@ -1,4 +1,4 @@
-# Diophantine EQuations
+# Diophantine Equations
 
 A Diophantine equation is a polynomial equation, usually
 in several variables, and solving it usually comprises
