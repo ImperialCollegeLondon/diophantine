@@ -2,6 +2,8 @@ import tactic
 import data.int.parity
 import data.int.modeq
 import data.nat.factorization.basic
+import number_theory.legendre_symbol.quadratic_reciprocity
+
 
 import Mordell.CongruencesMod4
 
@@ -69,6 +71,19 @@ begin
        ring,
     },
   have h7 : (x^2 - 2*x + 4) = (x-1)^2 + 3:= by ring,
-    rw ← h7 at h6,
-  sorry
+  rw ← h7 at h6,
+  obtain ⟨p, hp, hpd, h8⟩  := do_we_have x h6,
+  have h9 : ↑p∣y^2 + 1,
+  { rw h2,
+    exact dvd_mul_of_dvd_right hpd (x + 2), },
+  haveI : fact (nat.prime p) := ⟨hp⟩,
+  set yp : zmod p := y with hyp0,
+  have hyp : yp^2 = -1,
+  { rw ← zmod.int_coe_zmod_eq_zero_iff_dvd at h9,
+    push_cast at h9,
+    linear_combination h9, },
+  apply zmod.mod_four_ne_three_of_sq_eq_neg_one p hyp,
+  rw nat.modeq at h8, 
+  norm_num at h8,
+  assumption,
 end
