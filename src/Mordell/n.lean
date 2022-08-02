@@ -14,7 +14,16 @@ begin
   exact int.nat_abs_of_nonneg hz,
 end
 
-lemma do_we_have (x a: ℤ) (h : x^2 - a*x + a^2 ≡ 3 [ZMOD 4]) :
+theorem modeq_add_fac_self {a t n : ℤ} : a + n * t ≡ a [ZMOD n] :=
+int.modeq_add_fac _ int.modeq.rfl
+
+theorem modeq_iff_add_fac {a b n : ℤ} : a ≡ b [ZMOD n] ↔ ∃ t, b = a + n * t :=
+begin
+  rw int.modeq_iff_dvd,
+  exact exists_congr (λ t, sub_eq_iff_eq_add'),
+end
+
+lemma prime_factor_congr_3_mod_4 (x a: ℤ) (h : x^2 - a*x + a^2 ≡ 3 [ZMOD 4]) :
   ∃ (p : ℕ), p.prime ∧ (p : int) ∣ (x^2 - a*x + a^2)  ∧ p ≡ 3 [MOD 4] := 
 begin
   have h1 : ((x^2 - a*x + a^2): ℚ) = (x-a/2)^2 + (3*a^2)/4:= by ring,
@@ -31,7 +40,7 @@ begin
   rwa [← hn, int.coe_nat_dvd],
 end
 
-example (x y n a : ℤ) (h : -1 < n) (hx : n ≡ 3 [ZMOD 4]) (ha : a ≡ 2 [ZMOD 4]) (hy : n + 1 = a^3): y^2 ≠ x^3 + n :=
+example (x y n a : ℤ) (hx : n ≡ 3 [ZMOD 4]) (ha : a ≡ 2 [ZMOD 4]) (hy : n + 1 = a^3): y^2 ≠ x^3 + n :=
 begin
   intro heq,
   have oddx: odd x,
@@ -60,28 +69,24 @@ begin
   { rcases oddx with ⟨b,rfl⟩,
     ring_nf,
     symmetry,
-    have ha2 : ∃ t, a = 2 + 4 * t,
-    { sorry },
-    rcases ha2 with ⟨t, rfl⟩,
+    rcases modeq_iff_add_fac.1 ha.symm with ⟨t, rfl⟩,
     have htemp : (4 * b + (-(2 * (2 + 4 * t)) + 4)) * b + ((2 + 4 * t - 1) * 
-      (2 + 4 * t) + 1) = 4 * (b^2 - 2*t*b + (4*t^2 + 3*t)) + 3,
+      (2 + 4 * t) + 1) = 3 + 4 * (b^2 - 2*t*b + (4*t^2 + 3*t)),
     { ring },
     rw htemp,
-    -- should now be a lemma in the library
-    sorry, },
-  have h7 : ((x^2 - a*x + a^2): ℚ) = (x-a/2)^2 + (3*a^2)/4:= by ring,
-  sorry,
+    exact modeq_add_fac_self.symm, },
+  obtain ⟨p, hp, hpd, hp4⟩  := prime_factor_congr_3_mod_4 x a h6,
+  have h9 : ↑p∣y^2 + 1,
+  { rw h2,
+    exact dvd_mul_of_dvd_right hpd (x + a), },
+  haveI : fact (nat.prime p) := ⟨hp⟩,
+  set yp : zmod p := y with hyp0,
+  have hyp : yp^2 = -1,
+  { rw ← zmod.int_coe_zmod_eq_zero_iff_dvd at h9,
+    push_cast at h9,
+    linear_combination h9, },
+  apply zmod.mod_four_ne_three_of_sq_eq_neg_one p hyp,
+  rw nat.modeq at hp4, 
+  norm_num at hp4,
+  assumption,
 end
-
-/-
-in fact my instinct is that at least one of
-
-a + n * t ≡ a [ZMOD n]
-a + t * n ≡ a [ZMOD n]
-a ≡ a + n * t [ZMOD n]
-a ≡ a + t * n [ZMOD n]
-
-should be in the library, and I guess all the rest are easy to reduce
-to that one case
-
--/
