@@ -60,7 +60,28 @@ begin
   { rcases oddx with ⟨b,rfl⟩,
     ring_nf,
     symmetry,
+    have ha2 : ∃ t, a = 2 + 4 * t,
+    { sorry },
+    rcases ha2 with ⟨t, rfl⟩,
+    have htemp : (4 * b + (-(2 * (2 + 4 * t)) + 4)) * b + ((2 + 4 * t - 1) * 
+      (2 + 4 * t) + 1) = 4 * (b^2 - 2*t*b + (4*t^2 + 3*t)) + 3,
+    { ring },
+    rw htemp,
+    -- should now be a lemma in the library
     sorry, },
   have h7 : ((x^2 - a*x + a^2): ℚ) = (x-a/2)^2 + (3*a^2)/4:= by ring,
   sorry,
 end
+
+/-
+in fact my instinct is that at least one of
+
+a + n * t ≡ a [ZMOD n]
+a + t * n ≡ a [ZMOD n]
+a ≡ a + n * t [ZMOD n]
+a ≡ a + t * n [ZMOD n]
+
+should be in the library, and I guess all the rest are easy to reduce
+to that one case
+
+-/
