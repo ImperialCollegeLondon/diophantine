@@ -40,7 +40,7 @@ begin
   rwa [← hn, int.coe_nat_dvd],
 end
 
-example (x y n a : ℤ) (hx : n ≡ 3 [ZMOD 4]) (ha : a ≡ 2 [ZMOD 4]) (hy : n + 1 = a^3): y^2 ≠ x^3 + n :=
+lemma cube_minus_one_no_solns_aux (x y n a : ℤ) (hx : n ≡ 3 [ZMOD 4]) (ha : a ≡ 2 [ZMOD 4]) (hy : n + 1 = a^3): y^2 ≠ x^3 + n :=
 begin
   intro heq,
   have oddx: odd x,
@@ -89,4 +89,25 @@ begin
   rw nat.modeq at hp4, 
   norm_num at hp4,
   assumption,
+end
+
+theorem cube_minus_one_no_solns : ¬ ∃ x y t : ℤ, y^2 = x^3 + 64*t^3 + 96*t^2 + 48*t + 7 :=
+begin
+  rintro ⟨x, y, t, h⟩,
+  apply cube_minus_one_no_solns_aux x y (64*t^3 + 96*t^2 + 48*t + 7) (4*t+2),
+  { rw (show 64*t^3 + 96*t^2 + 48*t + 7 = 3 + 4 * (16*t^3 + 24*t^2 + 12*t + 1), by ring), 
+    apply modeq_add_fac_self, },
+  { rw add_comm, 
+    apply modeq_add_fac_self, },
+  { ring, },
+  { linear_combination h, },
+end
+
+example : ¬ ∃ x y : ℤ, y^2=x^3-9 :=
+begin
+  rintro ⟨x, y, h⟩,
+  apply cube_minus_one_no_solns,
+  use [x,y,-1],
+  rw h,
+  ring,
 end
