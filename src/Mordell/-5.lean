@@ -14,6 +14,15 @@ begin
   exact int.nat_abs_of_nonneg hz,
 end
 
+theorem modeq_add_fac_self {a t n : ℤ} : a + n * t ≡ a [ZMOD n] :=
+int.modeq_add_fac _ int.modeq.rfl
+
+theorem modeq_iff_add_fac {a b n : ℤ} : a ≡ b [ZMOD n] ↔ ∃ t, b = a + n * t :=
+begin
+  rw int.modeq_iff_dvd,
+  exact exists_congr (λ t, sub_eq_iff_eq_add'),
+end
+
 lemma prime_factor_congr_3_mod_4 (x : ℤ) (h : x^2 + x + 1 ≡ 3 [ZMOD 4]) :
   ∃ (p : ℕ), p.prime ∧ (p : int) ∣ (x^2 + x + 1)  ∧ p ≡ 3 [MOD 4] := 
 begin
@@ -57,6 +66,10 @@ intro heq,
       rw h5,
       norm_num,
   },
+  have hx : x ≡ 1 [ZMOD 4],
+  { have htemp := odd_x_eq_one_or_three_mod_4,
+    
+    sorry, },
   have h2 : y^2+4=(x-1)*(x^2 + x + 1),
     { rw heq,
       ring,
@@ -66,9 +79,6 @@ intro heq,
        ring_nf,
        symmetry,
        rw int.modeq_iff_dvd,
-       unfold has_dvd.dvd,
-       use n^2,
-       ring,
        sorry,
     },
   have h7 : (x^2 + x + 1) = (x + 1/2)^2 + 3/4:= by sorry,
