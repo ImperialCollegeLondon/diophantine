@@ -42,7 +42,6 @@ end
 
 
 
-
 example (x y : ℤ) : y^2 ≠ x^3 - 5 :=
 begin
 intro heq,
@@ -66,10 +65,13 @@ intro heq,
       rw h5,
       norm_num,
   },
-  have hx : x ≡ 1 [ZMOD 4],
-  { have htemp := odd_x_eq_one_or_three_mod_4,
-    
-    sorry, },
+  have h1 : x^3 - 5 ≡ x^3 - 1 [ZMOD 4],
+    { have htemp : -5 ≡ -1 [ZMOD 4],
+      { unfold int.modeq,
+        norm_num, },
+      unfold int.modeq at htemp ⊢,
+      rw int.mod_eq_mod_iff_mod_sub_eq_zero,
+      ring_nf,},
   have h2 : y^2+4=(x-1)*(x^2 + x + 1),
     { rw heq,
       ring,
