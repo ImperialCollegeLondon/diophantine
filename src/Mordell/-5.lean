@@ -96,6 +96,19 @@ begin
   simp [hp],
 end
 
+-- might help you dump oddx
+example (x : ℤ) (hx : x ≡ 1 [ZMOD 4]) : x^2 + x + 1 ≡ 3 [ZMOD 4] :=
+begin
+  have bar : x ≡ 1 [ZMOD (4 : ℕ)],
+    assumption_mod_cast,
+  suffices : x^2 + x + 1 ≡ 3 [ZMOD (4 : ℕ)],
+    assumption_mod_cast,
+  rw ← zmod.int_coe_eq_int_coe_iff at bar ⊢,
+  push_cast,
+  rw bar,
+  ring,
+end
+
 example (x y : ℤ) : y^2 ≠ x^3 - 5 :=
 begin
 intro heq,
