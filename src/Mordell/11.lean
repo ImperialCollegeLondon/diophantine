@@ -7,6 +7,49 @@ import number_theory.legendre_symbol.quadratic_reciprocity
 
 import Mordell.CongruencesMod4
 
+lemma useful_lemma (x y : ℤ)
+  (h1 : ∀ (x y : ℤ), y ^ 2 ≡ x ^ 3 + 11 [ZMOD 4] → x ≡ 1 [ZMOD 4])
+  (p : ℕ)
+  (heq : y ^ 2 = x ^ 3 + 11)
+  (oddx : odd x)
+  (hxy : y ^ 2 ≡ x ^ 3 + 11 [ZMOD 4])
+  (hx : x ≡ 1 [ZMOD 4])
+  (h2 : y ^ 2 + 16 ≡ (x + 3)*(x^2 - 3*x + 9) [ZMOD 4])
+  (h6 : x^2 - 3*x + 9 ≡ 3 [ZMOD 4])
+  (hp : nat.prime p)
+  (hpd : ↑p ∣ x^2 - 3*x + 9)
+  (h8 : p ≡ 3 [MOD 4])
+  (h9 : ↑p ∣ y ^ 2 + 16)
+  [fact (nat.prime p)] :
+  let yp : zmod p := ↑y
+  in yp = ↑y → yp ^ 2 = -16 → (-16 : zmod p) / 16 = -1 :=
+begin
+  intros yp hyp0 hyp,
+  have hpne2 : p ≠ 2,
+  { unfreezingI {rintro rfl},
+    delta nat.modeq at h8,
+    norm_num at h8, },
+  have hp : (4 : zmod p) ≠ 0,
+  { intro h,
+    have h2 : ((4 : ℕ) : zmod p) = 0,
+      assumption_mod_cast,
+    have h3 : p ∣ 4,
+      exact (zmod.nat_coe_zmod_eq_zero_iff_dvd 4 p).mp h2,
+    have h37 : 0 < 4 := by norm_num,
+    have h4 : p ≤ 4 := nat.le_of_dvd h37 h3,
+    have h5 : p = 3,
+    { apply nat.modeq.eq_of_modeq_of_abs_lt h8, 
+      norm_num,  
+      rw abs_lt,
+      norm_cast,
+      split; linarith,
+    }, 
+    unfreezingI {subst h5},
+    norm_num at h3, },
+  have hi : (4^2 :  zmod p) = (16 : zmod p) := by norm_num,
+  rw ← hi,
+  simp [hp],
+end
 
 lemma int.exists_nat_of_nonneg {z : ℤ} (hz : 0 ≤ z) : ∃ n : ℕ, 
   (n : ℤ) = z := 
@@ -112,7 +155,10 @@ begin
   { rw ← zmod.int_coe_zmod_eq_zero_iff_dvd at h9,
     push_cast at h9,
     linear_combination h9, },
-  have hypdiv4 : (yp/4)^2 = -1 := by sorry,
+  have hypdiv4 : (yp/4)^2 = -1,
+  { norm_num,
+    rw hyp,
+    apply useful_lemma; try {assumption}, },
   apply zmod.mod_four_ne_three_of_sq_eq_neg_one p hypdiv4,
   rw nat.modeq at h8, 
   norm_num at h8,
