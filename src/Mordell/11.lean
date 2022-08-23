@@ -8,16 +8,8 @@ import number_theory.legendre_symbol.quadratic_reciprocity
 import Mordell.CongruencesMod4
 
 lemma useful_lemma (x y : ℤ)
-  (h1 : ∀ (x y : ℤ), y ^ 2 ≡ x ^ 3 + 11 [ZMOD 4] → x ≡ 1 [ZMOD 4])
   (p : ℕ)
-  (heq : y ^ 2 = x ^ 3 + 11)
-  (oddx : odd x)
-  (hxy : y ^ 2 ≡ x ^ 3 + 11 [ZMOD 4])
-  (hx : x ≡ 1 [ZMOD 4])
-  (h2 : y ^ 2 + 16 ≡ (x + 3)*(x^2 - 3*x + 9) [ZMOD 4])
-  (h6 : x^2 - 3*x + 9 ≡ 3 [ZMOD 4])
   (hp : nat.prime p)
-  (hpd : ↑p ∣ x^2 - 3*x + 9)
   (h8 : p ≡ 3 [MOD 4])
   (h9 : ↑p ∣ y ^ 2 + 16)
   [fact (nat.prime p)] :
