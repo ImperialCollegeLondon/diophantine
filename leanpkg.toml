@@ -1,8 +1,8 @@
 [package]
 name = "diophantine"
 version = "0.1"
-lean_version = "leanprover-community/lean:3.45.0"
+lean_version = "leanprover-community/lean:3.48.0"
 path = "src"
 
 [dependencies]
-mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "4b76b9d668e7e9580b9af4938eb4d7c29b1bcdf7"}
+mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "8c9342fd8949ec8421ed6649685d5233a19e0c08"}

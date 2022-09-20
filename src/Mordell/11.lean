@@ -151,7 +151,7 @@ begin
   { norm_num,
     rw hyp,
     apply useful_lemma; try {assumption}, },
-  apply zmod.mod_four_ne_three_of_sq_eq_neg_one p hypdiv4,
+  apply zmod.mod_four_ne_three_of_sq_eq_neg_one hypdiv4,
   rw nat.modeq at h8, 
   norm_num at h8,
   assumption,

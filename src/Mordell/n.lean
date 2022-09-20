@@ -87,7 +87,7 @@ begin
   { rw ← zmod.int_coe_zmod_eq_zero_iff_dvd at h9,
     push_cast at h9,
     linear_combination h9, },
-  apply zmod.mod_four_ne_three_of_sq_eq_neg_one p hyp,
+  apply zmod.mod_four_ne_three_of_sq_eq_neg_one hyp,
   rw nat.modeq at hp4, 
   norm_num at hp4,
   assumption,
