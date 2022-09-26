@@ -7,6 +7,8 @@ import number_theory.legendre_symbol.quadratic_reciprocity
 
 import Mordell.CongruencesMod4
 
+--medium(ish)
+
 lemma consecutive_cubes (n : ℤ) (hn : ∃ m, n = m^3) (hn1 : ∃ k, n+1 = k^3) : n = -1 ∨ n = 0 :=
 begin
 sorry,

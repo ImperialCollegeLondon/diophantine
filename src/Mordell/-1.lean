@@ -8,6 +8,9 @@ import ring_theory.principal_ideal_domain
 
 local notation `ℤ[i]` := gaussian_int
 
+
+--hard(ish)
+
 instance : unique_factorization_monoid ℤ[i] := infer_instance
 
 
