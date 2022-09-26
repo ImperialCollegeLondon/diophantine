@@ -9,9 +9,12 @@ import Mordell.CongruencesMod4
 
 --Easy(ish)
 
-lemma prime_factor_congr_3_mod_4 (x : ℤ) (h : x^2 + 2*x + 4 ≡ 3 [ZMOD 8]) :
+lemma prime_factor_congr_3_mod_8 (x : ℤ) (h : x^2 + 2*x + 4 ≡ 3 [ZMOD 8]) :
   ∃ (p : ℕ), p.prime ∧ (p : int) ∣ (x^2 + 2*x + 4)  ∧ (p ≡ 3 [MOD 8] ∨ p ≡ 5  [MOD 8]) := 
 begin
+
+
+
 sorry,
 end
 

@@ -9,7 +9,17 @@ import Mordell.CongruencesMod4
 
 --medium(ish)
 
-lemma consecutive_cubes (n : ℤ) (hn : ∃ m, n = m^3) (hn1 : ∃ k, n+1 = k^3) : n = -1 ∨ n = 0 :=
+def is_cube (n : ℤ) : Prop := ∃ (m : ℤ), n = m^3 
+
+
+lemma diff_of_cubes (n m : ℤ) (hn : is_cube n) (hm : is_cube m) (hn2 : odd n) (hm2 : odd m) :
+  n - m ≠ 8 :=
+begin
+  sorry,
+end
+
+
+lemma consecutive_cubes (n : ℤ) (hn : is_cube n) (hn1 : is_cube (n+1)) : n = -1 ∨ n = 0 :=
 begin
 sorry,
 end
