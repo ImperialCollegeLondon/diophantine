@@ -9,23 +9,31 @@ import number_theory.class_number.number_field
 open_locale classical big_operators polynomial number_field
 noncomputable theory
 
-
 def quad_poly (n : ℤ) (R : Type*) [comm_ring R] [is_domain R] : R[X] := polynomial.X^2 - n 
 
 @[derive [field, algebra ℚ, inhabited]]
 def quad_field (n : ℤ): Type* := (quad_poly n ℚ).splitting_field
 
-lemma quad_number_field (n : ℤ) :
-  number_field (quad_field n) :=
-{ to_char_zero := by {sorry},
-  to_finite_dimensional := by {sorry} }
-
-instance {p : ℤ}: is_fraction_ring (𝓞 (quad_field p )) (quad_field p ) := 
+instance {n : ℤ} : polynomial.is_splitting_field ℚ (quad_field n) (quad_poly n ℚ) := 
 begin
-  sorry,
+  apply polynomial.is_splitting_field.splitting_field,
 end
 
-instance {n : ℤ} : finite_dimensional ℚ (quad_field n) := sorry
+instance quad_number_field (n : ℤ) :
+  number_field (quad_field n) :=
+{ to_char_zero := char_zero_of_injective_algebra_map (algebra_map ℚ (quad_field n)).injective,
+  to_finite_dimensional := by {
+    convert polynomial.is_splitting_field.finite_dimensional (quad_field n) (quad_poly n ℚ), } }
+ 
+instance {p : ℤ}: is_fraction_ring (𝓞 (quad_field p )) (quad_field p ) := 
+begin
+ apply number_field.ring_of_integers.is_fraction_ring,
+end
+
+instance {n : ℤ} : finite_dimensional ℚ (quad_field n) := 
+begin
+  convert (quad_number_field n).to_finite_dimensional,
+end
 
 instance quad_class_group_finite {p : ℤ} :
   fintype (class_group (𝓞 (quad_field p )) (quad_field p )) :=
