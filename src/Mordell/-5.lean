@@ -9,10 +9,7 @@ import Mordell.CongruencesMod4
 
 lemma int.exists_nat_of_nonneg {z : ℤ} (hz : 0 ≤ z) : ∃ n : ℕ, 
   (n : ℤ) = z := 
-begin
-  use z.nat_abs,
-  exact int.nat_abs_of_nonneg hz,
-end
+⟨z.nat_abs, int.nat_abs_of_nonneg hz⟩
 
 theorem modeq_add_fac_self {a t n : ℤ} : a + n * t ≡ a [ZMOD n] :=
 int.modeq_add_fac _ int.modeq.rfl
