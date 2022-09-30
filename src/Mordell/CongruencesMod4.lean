@@ -200,7 +200,8 @@ end
 
 
 
-lemma three_modulo_four_prime_factor (x : ℕ) (hx: x ≡ 3 [MOD 4]) : ∃ (p : ℕ), p.prime ∧ p ∣ x ∧ p ≡ 3 [MOD 4] :=
+lemma three_modulo_four_prime_factor (x : ℕ) (hx: x ≡ 3 [MOD 4]) : ∃ (p : ℕ), 
+p.prime ∧ p ∣ x ∧ p ≡ 3 [MOD 4] :=
 begin
   induction x using nat.rec_on_pos_prime_pos_coprime with a b hab hb a b ha hb hcb iha ihb,
   swap,

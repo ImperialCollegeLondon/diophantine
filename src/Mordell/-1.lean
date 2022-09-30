@@ -24,3 +24,21 @@ begin
  sorry,
 
 end
+
+
+
+lemma test (a p : ℤ) (ha : 2^3 ∣ (2^2 * a^2)) : 2 ∣ a :=
+begin
+have h1 : (2 : ℤ)^2 ∣ 2^2 , by {exact dvd_rfl,},
+have h2 : (2 : ℤ)^0 ∣ a^2 , by {norm_num},
+have h3 : (2 : ℤ)^(2+0+1) ∣ (2^2 * a^2), by {apply ha,},
+have := succ_dvd_or_succ_dvd_of_succ_sum_dvd_mul (int.prime_two) h1 h2 h3,
+cases this,
+exfalso,
+rw pow_add at this,
+simp at this,
+norm_num at this,
+simp at this,
+apply prime.dvd_of_dvd_pow int.prime_two this,
+
+end
