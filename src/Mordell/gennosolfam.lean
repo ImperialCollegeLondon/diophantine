@@ -45,11 +45,18 @@ class_group (𝓞 $ quad_field n) $ quad_field n
 
 def is_square_free (n : ℤ) : Prop := ¬ (∃ k, k^2 ∣ n)
 
+
+--lemma key_lem (n : ℕ+) (x y : ℤ) (hn : is_square_free n) (hn4 : class_number_cond (-n)) 
+
 lemma mordel_no_sol_fam (n : ℕ+) (x y : ℤ) (hn : is_square_free n) 
 (hn2 : n ≡ 1 [ZMOD4] ∨ n ≡ 2 [ZMOD 4]) (hn3 : ¬ ( ∃ a, n = 3*a^2 +1 ∨ n = 3*a^2 -1)) 
 (hn4 : class_number_cond (-n)) :  y^2 ≠ x^3 - n :=
 begin
+
 sorry,
 
+
+
 end
+
 
